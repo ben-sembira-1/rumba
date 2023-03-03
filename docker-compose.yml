@@ -1,0 +1,25 @@
+version: "3.5"
+
+services:
+  elastic:
+    image: elasticsearch:8.3.3
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=rumba
+      - POSTGRES_PASSWORD=rumba
+      - POSTGRES_DB=mdn
+
+  rumba:
+    build: .
+    network_mode: host
+    volumes:
+      - .settings.dev.toml:/root/.settings.toml
